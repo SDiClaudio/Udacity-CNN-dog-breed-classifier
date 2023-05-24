@@ -59,3 +59,34 @@ I used a pre-trained ResNet-50 model to detect dogs in images. The performance i
 
 - CNN from scratch: Test accuracy of 14%.
 - CNN to Classify Dog Breeds using ResNet-50 (using transfer learning): Test accuracy of 81%.
+
+# Breed App
+
+This repository contains the code for the **App Name** application. The application is built using Python and can be run by executing the `app.py` file.
+
+## Requirements
+
+Before running the application, make sure you have the following libraries installed:
+
+- **Tensorflow**: A popular open-source machine learning framework. Install it using `pip install tensorflow`.
+
+- **OpenCV**: A computer vision library used for image and video processing. Install it using `pip install opencv-python`.
+
+- **Dash**: A Python framework for building web applications. Install it using `pip install dash`.
+
+- **NumPy**: A powerful numerical computing library. Install it using `pip install numpy`.
+
+- **Pandas**: A library for data manipulation and analysis. Install it using `pip install pandas`.
+
+- **PIL**: The Python Imaging Library, used for image processing tasks. Install it using `pip install pillow`.
+
+## Running the Application
+
+To run the application, follow these steps:
+
+1. Clone this repository to your local machine.
+2. Install the required libraries as mentioned in the Requirements section.
+3. Open a terminal or command prompt and navigate to the repository's directory.
+4. Execute the following command: `python app.py`.
+5. The application will start running and you can access it by opening your web browser and navigating to `http://localhost:8050`.
+
