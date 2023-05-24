@@ -6,12 +6,12 @@ from PIL import Image
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-#import tensorflow as tf
-#from keras.models import Sequential
+import tensorflow as tf
+from keras.models import Sequential
 
-#from keras.applications.resnet50 import ResNet50
-#from keras.applications.resnet50 import preprocess_input, decode_predictions
-#from keras.layers import GlobalAveragePooling2D, Dense
+from keras.applications.resnet50 import ResNet50
+from keras.applications.resnet50 import preprocess_input, decode_predictions
+from keras.layers import GlobalAveragePooling2D, Dense
 
 
 def face_detector(img_path):
@@ -27,7 +27,7 @@ def face_detector(img_path):
     return len(faces) > 0
 
 
-'''def path_to_tensor(img_path):
+def path_to_tensor(img_path):
     # loads RGB image as PIL.Image.Image type
     img = image.load_img(img_path, target_size=(224, 224))
     # convert PIL.Image.Image type to 3D tensor with shape (224, 224, 3)
@@ -81,23 +81,18 @@ def skynet_predict_breed(img_path):
 # JARVIS
 
 
-def Jarvis(img_path, img_size):
+def Jarvis(img_path):
 
     if dog_detector(img_path):
-        print('DOG FOUND!')
         pred = skynet_predict_breed(img_path)
-        pic = img_resize(img_path)
-        display(pic)
         breed = pred.split('.')[1]
-        breed = breed.replace('_', ' ').title()
+        breed = breed.replace('_',' ').title()
     elif face_detector(img_path):
-        print('HUMAN FOUND!')
         pred = skynet_predict_breed(img_path)
-        pic = img_resize(img_path)
-        display(pic)
         breed = pred.split('.')[1]
-        breed = breed.replace('_', ' ').title()
+        breed = breed.replace('_',' ').title()
+        
     else:
-        pic = img_resize('images/Error images/FaceLess.jpg')
-        display(pic)
-'''
+        pic = cv2.imread('static/images/Error images/FaceLess.jpg')
+        breed = 'Not a dog or a human'
+
