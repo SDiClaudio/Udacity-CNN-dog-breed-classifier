@@ -78,7 +78,7 @@ Before running the application, make sure you have the following libraries insta
 
 - **Pandas**: A library for data manipulation and analysis. Install it using `pip install pandas`.
 
-- **PIL**: The Python Imaging Library, used for image processing tasks. Install it using `pip install pillow`.
+- **Pillow**: The Python Imaging Library, used for image processing tasks. Install it using `pip install pillow`.
 
 ## Running the Application
 
