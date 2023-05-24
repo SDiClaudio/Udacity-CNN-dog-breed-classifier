@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 import dash
-from dash import dash_table
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
@@ -10,7 +9,7 @@ from dash.dependencies import Input, Output
 
 from PIL import Image
 
-from static.model.functions import face_detector
+from static.model.functions import face_detector, Jarvis
 
 # Create a Dash app
 app = dash.Dash(__name__)
@@ -49,9 +48,7 @@ app.layout = html.Div([dbc.Row(id='app-title', children=[html.H1(children='Dog B
                                 'display':'flex',
                                 'align-items':'flex-start',
                                 'justify-content':'center',
-                                'padding':'5px',
-                                'border':'solid',
-                                'border-color':'red'
+                                'padding':'5px'
                             }),
                             
                     dbc.Row(id='submit-container',
@@ -65,16 +62,13 @@ app.layout = html.Div([dbc.Row(id='app-title', children=[html.H1(children='Dog B
                             style={
                                 'display': 'flex',
                                 'justify-content': 'center',
-                                'padding': '20px',
-                                'border': 'dashed',
-                                'border-color': 'blue'}),
+                                'padding': '20px'}),
 
                     dbc.Row(id='display-row',
                             children=[dbc.Col(id='img-container', children=[],
                                             style={
                                                 'display':'flex',
-                                                'justify-content':'center',
-                                                'border':'dotted'}),
+                                                'justify-content':'center'}),
                                       dbc.Col(id='img-label', children=[])],
                             style={
                                 'display':'flex',
@@ -83,8 +77,11 @@ app.layout = html.Div([dbc.Row(id='app-title', children=[html.H1(children='Dog B
                                 'padding':'5px'
                                 }),
                     dbc.Row(id='output-row',
-                            children=[]
-                            )
+                            children=[],
+                            style={
+                                'textAlign': 'center',
+                                'font-size':'40px'
+                            })
             ])
             ])
 
@@ -112,15 +109,13 @@ def label_input_img(contents):
                       style={
                           'textAlign': 'center',
                           'font-size': '50px',
-                          'color': 'green',
-                          'border': 'dotted'})
+                          'color': 'green'})
     else:
         return html.P('Awating Image',
                       style={
                           'textAlign': 'center',
                           'font-size': '50px',
-                          'color': 'red',
-                          'border': 'dotted'})
+                          'color': 'red'})
 
 
 @app.callback(Output(component_id='output-row', component_property='children'),
@@ -129,80 +124,15 @@ def label_input_img(contents):
         
 )
 def describe_img(contents, n_clicks):
-    if (contents is not None) and (n_clicks!=0):
-        img = Image.open(contents)
-        img_arr = np.array(img)
-        height, width, channels = img_arr.shape
-        d = pd.DataFrame({'Height(pixels)': [height],
-                          'Width(pixels)': [width],
-                          'Channels': [channels]})
+    if (contents is not None) and (n_clicks>0):
         
-        return html.Div(children=[
-                                dash_table.DataTable(
-                                    id='table',
-                                    columns=[{'name': 'Height(pixels)', 'id': 'Height(pixels)'},
-                                             {'name': 'Width(pixels)', 'id': 'Width(pixels)'},
-                                             {'name': 'Channels', 'id': 'Channels'}],
-                                    data=d.to_dict('records'),
-                                    style_data={'whiteSpace': 'normal'},
-                                    style_cell={'textAlign': 'left'}
-                                    )],
-                        style={
-
-                        }),
+        sentence = Jarvis(contents)
+        
+        return sentence
     else:
-        return html.Div(['Dog Breed'],
-                        style={
-                            'textAlign':'center'
-                        })
+        return 'Dog Breed'
 
 
-
-
-
-## Face Recognition function
-#def label_input_img(contents):
-#    if contents is not None:
-#        if face_detector(contents):
-#            return html.Div(children=['HUMAN'],
-#                            style={
-#                                'textAlign': 'center',
-#                                'font-size': '30px',
-#                                'color':'green'
-#                            })
-#        else:
-#            return html.Div(children=['DOG?'],
-#                            style={
-#                                'textAlign': 'center',
-#                                'font-size': '30px',
-#                                'color': 'red'
-#                            })
-#
-#    else:
-#        return html.Div(children=['Awating Image'],
-#                               style={
-#                                'textAlign': 'center',
-#                                'font-size': '20px',
-#                                'color': 'black'
-#                            })
-    
-
-
-
-    
-# Define the callback function for the submit button
-#@app.callback(
-#    Output(component_id='output-row', component_property='children'),
-#    Output(component_id='img-label, component_property='children')
-#    Input(component_id='upload-img', component_property='contents'), # check the ids in order to get the Input img.
-#    Input(component_id='submit-button', component_property='n_clicks')
-#    )
-
-#def predict_img(img,clicks):
-
-    #
-
-#    return 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
